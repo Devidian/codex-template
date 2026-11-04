@@ -16,6 +16,8 @@ Use `main` only for initial bootstrap and accepted integration. Start one `featu
 
 The main session coordinates. Delegate only bounded, useful tasks, avoid simultaneous edits to the same files, and keep agents on the current branch. Do not create worktrees without authorization. Consult relevant `.agents/skills/` workflows and `docs/development/` policies. Keep active plans in `docs/roadmap/active/`; archive only after acceptance.
 
-Run targeted checks during development. Before acceptance, run full install, typecheck, lint, build, tests, vulnerability audit, and at least 90% changed executable line coverage once the application supplies these scripts and LCOV output. CI enforces these gates for ready PRs. Report test evidence, uncovered paths, and risks. No meaningless coverage tests.
+Run targeted checks during development. Before acceptance, run full Yarn install, typecheck, lint, build, tests, vulnerability audit, and at least 90% changed executable line coverage. CI enforces these gates for ready PRs. Future applications must extend the commands and LCOV output. Report test evidence, uncovered paths, and risks. No meaningless coverage tests.
+
+Use Node.js 24 and Yarn 4 (`corepack yarn`) for this repository. Before proposing GitHub settings changes, run `yarn repo:configure --check` or `--dry-run`, show the plan, request explicit approval, apply only approved changes, and verify. Never run remote configuration changes merely because the repository was opened. See `docs/development/repository-configuration.md`.
 
 Use SemVer and `CHANGELOG.md`. Release preparation alone may update version metadata. Stable releases require an approved `main` commit; RCs may come from development branches and must remain prereleases. Never overwrite tags. Keep docs aligned with behavior and record substantial architectural decisions in `docs/decisions/`. Never commit credentials, bypass protection, or perform external repository mutations without approval.

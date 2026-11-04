@@ -1,0 +1,25 @@
+{
+  "name": "codex-template-tooling",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "yarn@4.18.1",
+  "scripts": {
+    "repo:configure": "yarn build && node dist/scripts/repo-configure/src/main.js",
+    "typecheck": "ttsc --noEmit",
+    "lint": "ttsc --noEmit --noUnusedLocals --noUnusedParameters",
+    "build": "ttsc",
+    "test": "yarn build && jest --runInBand",
+    "test:coverage": "yarn build && jest --runInBand --coverage",
+    "pack:release": "yarn build"
+  },
+  "dependencies": {
+    "typia": "15.2.2"
+  },
+  "devDependencies": {
+    "@types/jest": "30.0.0",
+    "@types/node": "24.10.0",
+    "jest": "30.5.2",
+    "ttsc": "0.35.0",
+    "typescript": "7.0.2"
+  }
+}

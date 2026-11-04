@@ -7,3 +7,4 @@ All notable changes are recorded here. Format: [Keep a Changelog](https://keepac
 ### Added
 
 - Repository development framework, local Codex roles and skills, CI acceptance gate, and manual release workflows.
+- Approval-gated GitHub repository configuration tool with Yarn 4, TypeScript, typia validation, Jest tests, and versioned desired settings.

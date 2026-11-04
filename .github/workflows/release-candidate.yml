@@ -37,19 +37,22 @@ jobs:
           python3 scripts/prepare-release.py --kind rc --version "$VERSION"
           source_sha="$(git rev-parse HEAD)"
           gh api "repos/$GITHUB_REPOSITORY/commits/$source_sha/check-runs" --jq '.check_runs[] | select(.name == "acceptance" and .conclusion == "success") | .id' | grep -q .
+      - name: Enable Corepack for Yarn cache discovery
+        run: corepack enable
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 24
-          cache: npm
+          cache: yarn
       - name: Build and validate
         run: |
-          npm ci
-          npm run typecheck
-          npm run lint
-          npm run build
-          npm run test:coverage
-          npm audit --audit-level=high
-          npm run pack:release
+          corepack enable
+          yarn install --immutable
+          yarn typecheck
+          yarn lint
+          yarn build
+          yarn test:coverage
+          yarn npm audit --severity high
+          yarn pack:release
           test -d dist && test -n "$(find dist -type f -print -quit)"
       - name: Package and publish prerelease
         env:

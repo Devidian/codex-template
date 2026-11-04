@@ -5,5 +5,9 @@ coverage/
 .env
 .env.*
 !.env.example
+!.env.yarn
 *.log
 __pycache__/
+.yarn/cache/
+.yarn/install-state.gz
+.pnp.*

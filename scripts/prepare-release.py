@@ -40,12 +40,12 @@ def main() -> int:
         print("Missing dated changelog entry", file=sys.stderr)
         return 1
     package = Path("package.json")
-    lock = Path("package-lock.json")
+    lock = Path("yarn.lock")
     if not package.is_file() or not lock.is_file():
-        print("Release requires package.json and package-lock.json", file=sys.stderr)
+        print("Release requires package.json and yarn.lock", file=sys.stderr)
         return 1
-    if json.loads(package.read_text())["version"] != args.version or json.loads(lock.read_text())["version"] != args.version:
-        print("Package and lockfile versions must match release", file=sys.stderr)
+    if json.loads(package.read_text())["version"] != args.version:
+        print("Package version must match release", file=sys.stderr)
         return 1
     print(f"Release metadata valid: {tag} at {git('rev-parse', 'HEAD')}")
     return 0

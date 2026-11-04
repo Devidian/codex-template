@@ -39,37 +39,24 @@ jobs:
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: python3 scripts/validate-pr.py "$PR_TITLE"
-      - name: Detect application
-        id: app
-        run: |
-          if test -f package.json; then echo 'present=true' >> "$GITHUB_OUTPUT"; else echo 'No application package yet'; fi
+      - name: Enable Corepack for Yarn cache discovery
+        run: corepack enable
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        if: steps.app.outputs.present == 'true'
         with:
           node-version: 24
-          cache: npm
+          cache: yarn
       - name: Install locked dependencies
-        if: steps.app.outputs.present == 'true'
-        run: npm ci
-      - name: Require application scripts
-        if: steps.app.outputs.present == 'true'
         run: |
-          node - <<'JS'
-          const p = require('./package.json');
-          for (const name of ['typecheck', 'lint', 'build', 'test:coverage', 'pack:release']) {
-            if (!p.scripts?.[name]) throw new Error(`Missing package script: ${name}`);
-          }
-          JS
+          corepack enable
+          yarn install --immutable
       - name: Typecheck, lint, build, test, audit
-        if: steps.app.outputs.present == 'true'
         run: |
-          npm run typecheck
-          npm run lint
-          npm run build
-          npm run test:coverage
-          npm audit --audit-level=high
+          yarn typecheck
+          yarn lint
+          yarn build
+          yarn test:coverage
+          yarn npm audit --severity high
       - name: Enforce changed-line coverage
-        if: steps.app.outputs.present == 'true'
         env:
           PR_BASE: ${{ github.event.pull_request.base.sha }}
           PUSH_BASE: ${{ github.event.before }}
@@ -78,7 +65,10 @@ jobs:
             base="$PR_BASE"
           elif test -n "$PUSH_BASE" && test "$PUSH_BASE" != '0000000000000000000000000000000000000000'; then
             base="$PUSH_BASE"
-          else
+          elif git rev-parse HEAD^ >/dev/null 2>&1; then
             base="$(git rev-parse HEAD^)"
+          else
+            echo 'Initial commit: no base for changed-line coverage'
+            exit 0
           fi
           python3 scripts/check-coverage.py --base "$base"

@@ -6,4 +6,4 @@ Stable release: obtain explicit approval; prepare and merge version/changelog ch
 
 RC: prepare version/changelog on the source branch, then manually run `release-candidate.yml` with a source ref and RC version. It uses the same gates and publishes a prerelease without merging. Use a unique tag each time. In both cases, `pack:release` must populate `dist/` and versioned artifacts must agree with the tag. Check workflow evidence and public assets after publication.
 
-Application owners must supply `package.json` scripts and `coverage/lcov.info` as described in [testing](testing.md). The template itself has no releaseable application artifact.
+Application owners must extend the Yarn scripts and `coverage/lcov.info` as described in [testing](testing.md). The template itself contains tooling but no application artifact.

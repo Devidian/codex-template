@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 SOURCE = re.compile(r"\.(?:[cm]?js|[cm]?ts|jsx|tsx)$")
-EXCLUDED = re.compile(r"(?:^|/)(?:__tests__|tests?|fixtures|generated|dist|coverage)/|(?:\.d\.[cm]?ts|\.(?:test|spec)\.[cm]?[jt]sx?)$")
+EXCLUDED = re.compile(r"(?:^|/)(?:__tests__|tests?|fixtures|generated|dist|coverage)/|(?:\.d\.[cm]?ts|\.(?:test|spec)\.[cm]?[jt]sx?)$|(?:^|/)jest\.config\.cjs$")
 
 
 def changed_lines(base: str) -> dict[str, set[int]]:
