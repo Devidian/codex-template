@@ -1,0 +1,67 @@
+name: Release candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: RC SemVer without v prefix, e.g. 0.2.0-rc.1
+        required: true
+        type: string
+      source_ref:
+        description: Branch or commit to release
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  checks: read
+
+concurrency:
+  group: rc-release-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ inputs.source_ref }}
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Validate metadata and source CI
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          python3 scripts/prepare-release.py --kind rc --version "$VERSION"
+          source_sha="$(git rev-parse HEAD)"
+          gh api "repos/$GITHUB_REPOSITORY/commits/$source_sha/check-runs" --jq '.check_runs[] | select(.name == "acceptance" and .conclusion == "success") | .id' | grep -q .
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+      - name: Build and validate
+        run: |
+          npm ci
+          npm run typecheck
+          npm run lint
+          npm run build
+          npm run test:coverage
+          npm audit --audit-level=high
+          npm run pack:release
+          test -d dist && test -n "$(find dist -type f -print -quit)"
+      - name: Package and publish prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          mkdir -p release-artifacts
+          tar -czf "release-artifacts/project-v${VERSION}.tar.gz" -C dist .
+          cd release-artifacts
+          sha256sum "project-v${VERSION}.tar.gz" > SHA256SUMS
+          cd ..
+          python3 scripts/release-notes.py --version "$VERSION" > release-artifacts/notes.md
+          git tag -a "v${VERSION}" -m "Release candidate v${VERSION} from $(git rev-parse HEAD)"
+          git push origin "v${VERSION}"
+          gh release create "v${VERSION}" release-artifacts/project-v"${VERSION}".tar.gz release-artifacts/SHA256SUMS --title "v${VERSION}" --notes-file release-artifacts/notes.md --prerelease --verify-tag
