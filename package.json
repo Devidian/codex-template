@@ -13,7 +13,7 @@
     "pack:release": "yarn build"
   },
   "dependencies": {
-    "typia": "15.2.2"
+    "typia": "15.3.0"
   },
   "devDependencies": {
     "@types/jest": "30.0.0",

@@ -1227,19 +1227,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typia/interface@npm:^15.2.2":
-  version: 15.2.2
-  resolution: "@typia/interface@npm:15.2.2"
-  checksum: 10c0/985490c9251b3bea00bfef697275152eeec8950dcf06867dcd9c8b227bcefd5d0c6ec2f3d421f90b6888e2dbcccbb7d322837a1ebe260ddaf382d312728f9da7
+"@typia/interface@npm:^15.3.0":
+  version: 15.3.0
+  resolution: "@typia/interface@npm:15.3.0"
+  checksum: 10c0/9733bad5fa8b01f23d006164717f7b0bff888651119906ebb065fffd923c7684ecdd5594f1bf5aa1a62fe1b8ff1674ae1b47102a9843570afb66fb58d033e7d4
   languageName: node
   linkType: hard
 
-"@typia/utils@npm:^15.2.2":
-  version: 15.2.2
-  resolution: "@typia/utils@npm:15.2.2"
+"@typia/utils@npm:^15.3.0":
+  version: 15.3.0
+  resolution: "@typia/utils@npm:15.3.0"
   dependencies:
-    "@typia/interface": "npm:^15.2.2"
-  checksum: 10c0/9c8af406aef7f19b6593d1c906ea1b6a70cbfc4f7fbb05bfe3c4e30f3a92500f7942cb81377fc6406b66df95bf38eeb12a81631685b65b9d03ec65de242c0bfd
+    "@typia/interface": "npm:^15.3.0"
+  checksum: 10c0/c67ebbdc56fb536deb31d9823ab6329006db5e0dedcb6285e972218ec103c21ca671a15bf7fc07722c4a5c0c7a484a6a8af1a1189df06c1c214a6368abcc26da
   languageName: node
   linkType: hard
 
@@ -1719,7 +1719,7 @@ __metadata:
     jest: "npm:30.5.2"
     ttsc: "npm:0.35.0"
     typescript: "npm:7.0.2"
-    typia: "npm:15.2.2"
+    typia: "npm:15.3.0"
   languageName: unknown
   linkType: soft
 
@@ -3500,19 +3500,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typia@npm:15.2.2":
-  version: 15.2.2
-  resolution: "typia@npm:15.2.2"
+"typia@npm:15.3.0":
+  version: 15.3.0
+  resolution: "typia@npm:15.3.0"
   dependencies:
-    "@typia/interface": "npm:^15.2.2"
-    "@typia/utils": "npm:^15.2.2"
+    "@typia/interface": "npm:^15.3.0"
+    "@typia/utils": "npm:^15.3.0"
     randexp: "npm:^0.5.3"
   peerDependencies:
-    ttsc: ">=0.34.1"
+    ttsc: ">=0.36.3"
   peerDependenciesMeta:
     ttsc:
       optional: true
-  checksum: 10c0/68ef03533b6e124554bdeccc2122bcd8f9e4420e77964e07a910ac0a2422e2d5dc9108ce9ee3892ccf0da9f4c713acf4b8ef1da106512495222cc5004fa5335c
+  checksum: 10c0/28ac0ca807fdd7087b56499e50c2cbb465cca6332bde37ed4b2d5495a8bd25f2ca06b0de5f20f0dbb12e74f4c76a3cca3934818a3c1f128552af2feb12908b66
   languageName: node
   linkType: hard
 
